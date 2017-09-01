@@ -116,7 +116,7 @@ class InstagramManager extends Manager
      * @param  string  $token
      * @return \Mayoz\Instagram\User
      */
-    public function mapUserToObject(array $user, $token)
+    protected function mapUserToObject(array $user, $token)
     {
         return (new User())->map([
             'id'       => $user['id'],
