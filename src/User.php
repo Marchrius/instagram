@@ -24,6 +24,13 @@ use ArrayAccess;
 class User implements ArrayAccess
 {
     /**
+     * The container array
+     *
+     * @var array
+     */
+    private $user;
+
+    /**
      * The unique identifier for the user.
      *
      * @var mixed
@@ -169,6 +176,7 @@ class User implements ArrayAccess
     {
         foreach ($attributes as $key => $value) {
             $this->{$key} = $value;
+            $this->user[$key] = $value;
         }
 
         return $this;
