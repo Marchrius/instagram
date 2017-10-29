@@ -79,11 +79,11 @@ class InstagramManager extends Manager
      *
      * @throws \InvalidArgumentException
      */
-    public function me(string $code = '')
+    public function me($code = '')
     {
         $driver = $this->driver();
 
-        if ($code === '') {
+        if (!is_string($code) || empty(trim($code))) {
             $code = $this->app['request']->get('code');
         }
 
@@ -110,20 +110,34 @@ class InstagramManager extends Manager
 
 
     /**
+     * @deprecated Use static::map instead
+     *
      * Fill the user entity by the given attributes.
      *
      * @param  array   $user
      * @param  string  $token
      * @return \Mayoz\Instagram\User
+     *
      */
-    public function mapUserToObject(array $user, $token)
+    protected function mapUserToObject(array $user, $token)
     {
+        return self::map($user, $token);
+    }
+
+    /**
+     * Fill the user entity by the given attributes.
+     *
+     * @param array $user
+     * @param string $token
+     * @return \Mayoz\Instagram\User
+     */
+    public static function map(array $user, $token) {
         return (new User())->map([
-            'id'       => $user['id'],
-            'username' => $user['username'],
-            'name'     => $user['full_name'],
+            'id'       => isset($user['id']) ? $user['id'] : null,
+            'username' => isset($user['username']) ? $user['username'] : null,
+            'name'     => isset($user['full_name']) ? $user['full_name'] : null,
             'email'    => null,
-            'avatar'   => $user['profile_picture'],
+            'avatar'   => isset($user['profile_picture']) ? $user['profile_picture'] : null,
             'bio'      => isset($user['bio']) ? $user['bio'] : null,
             'website'  => isset($user['website']) ? $user['website'] : null,
             'token'    => $token
