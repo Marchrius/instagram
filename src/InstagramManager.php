@@ -79,11 +79,11 @@ class InstagramManager extends Manager
      *
      * @throws \InvalidArgumentException
      */
-    public function me(string $code = '')
+    public function me($code = '')
     {
         $driver = $this->driver();
 
-        if ($code === '') {
+        if (!is_string($code) || empty(trim($code))) {
             $code = $this->app['request']->get('code');
         }
 
